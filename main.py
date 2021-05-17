@@ -110,6 +110,3 @@ for key, val in dfa_table.items():
         else: row = row + val1 + (9-len(val1))*' '
     print(row)
     row = ''
-
-print('\n')
-print(dfa_table)

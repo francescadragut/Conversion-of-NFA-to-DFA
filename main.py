@@ -102,6 +102,8 @@ for key, val in dfa_table.items():
         row = row + '   -> ' + key + (9-len(key))*' '
     elif key == end:
         row = row + '    * ' + key + (9-len(key))*' '
+    elif end in key:
+        row = row + '    * ' + key + (9 - len(key)) * ' '
     else: row = row + '      ' + key + (9-len(key))*' '
 
     for key1, val1 in val.items():

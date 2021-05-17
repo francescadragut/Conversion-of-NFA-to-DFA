@@ -88,7 +88,7 @@ for key in dfa_table.keys():
     dfa_states.append(key)
 
 for item in alphabet:
-    header = header + item + '          '
+    header = header + item + '         '
 lines = len(header)*'-'
 
 print('\n',header)
@@ -101,13 +101,13 @@ for key, val in dfa_table.items():
     elif key == start:
         row = row + '   -> ' + key + (9-len(key))*' '
     elif key == end:
-        row = row + '    * ' + key + (10-len(key))*' '
-    else: row = row + '     ' + key + (10-len(key))*' '
+        row = row + '    * ' + key + (9-len(key))*' '
+    else: row = row + '      ' + key + (9-len(key))*' '
 
     for key1, val1 in val.items():
         if val1 == '':
             row = row + 'err      '
-        else: row = row + val1 + (10-len(val1))*' '
+        else: row = row + val1 + (9-len(val1))*' '
     print(row)
     row = ''
 

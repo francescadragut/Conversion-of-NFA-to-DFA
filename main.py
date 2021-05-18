@@ -1,3 +1,4 @@
+print("Enter the data for the NFA:")
 print("Enter list of states: ")
 states_char = input()
 states = []
@@ -12,12 +13,17 @@ for i in range(len(alphabet_char)):
     if alphabet_char[i] != ',' and alphabet_char[i] != ' ' and alphabet_char[i] != '[' and alphabet_char[i] != ']':
         alphabet.append(alphabet_char[i])
 
-print("Enter starting point: ")
+print("Enter starting state: ")
 start = input()
-print("Enter ending point: ")
-end = input()
-print("Enter transitions (for empty transition, press enter): ")
 
+print("Enter ending states: ")
+end_char = input()
+end = []
+for i in range(len(end_char)):
+    if end_char[i] != ',' and end_char[i] != ' ' and end_char[i] != '[' and end_char[i] != ']':
+        end.append(end_char[i])
+
+print("Enter transitions (for empty transition, press enter): ")
 table = {}
 for i in states:
     row = {}
@@ -28,7 +34,6 @@ for i in states:
                 y = y.replace(it, '')
         row[j] = y
     table[i] = row
-
 
 dfa_table = {}
 for key, value in table.items():
@@ -74,19 +79,38 @@ while n > 0:
             dict[j] = string
             new1.append(string)
             cnt += 1
-
         n += cnt
         dfa_table[new1[i]] = dict
-
     new1.pop(0)
     n -= 1
 
 dfa_states = []
-header = 'delta_DFA     '
-
 for key in dfa_table.keys():
     dfa_states.append(key)
+dfa_states1 = []
+for item in dfa_states:
+    if item == '':
+        dfa_states1.append('err')
+    else: dfa_states1.append(item)
 
+def search_end(string):
+    for i in string:
+        if i in end:
+            return 1
+    return 0
+
+dfa_final = []
+for item in dfa_states:
+    if search_end(item) == 1:
+        dfa_final.append(item)
+
+print("\n\nDFA alphabet: ",alphabet)
+print("DFA states: ",dfa_states1)
+print("DFA starting state: ",start)
+print("DFA final states: ",dfa_final)
+print("DFA transition table:")
+
+header = 'delta_DFA     '
 for item in alphabet:
     header = header + item + '        '
 lines = len(header)*'-'
@@ -100,10 +124,8 @@ for key, val in dfa_table.items():
         row = row + '      err      '
     elif key == start:
         row = row + '   -> ' + key + (9-len(key))*' '
-    elif key == end:
+    elif key == end or search_end(key) == 1:
         row = row + '    * ' + key + (9-len(key))*' '
-    elif end in key:
-        row = row + '    * ' + key + (9 - len(key)) * ' '
     else: row = row + '      ' + key + (9-len(key))*' '
 
     for key1, val1 in val.items():
